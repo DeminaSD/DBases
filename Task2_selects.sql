@@ -22,4 +22,8 @@ WHERE singer_name NOT LIKE '% %';
 
 --5
 SELECT track_name FROM tracks
-WHERE LOWER(track_name) LIKE '%my%' OR track_name LIKE '%мой%';
+WHERE track_name ILIKE 'my %' --начало строки
+		OR track_name ILIKE '% my' --конец строки
+		OR track_name ILIKE '% my %' --середина строки
+		OR track_name ILIKE 'my'; --1 слово
+

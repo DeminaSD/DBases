@@ -15,10 +15,23 @@ LEFT JOIN albums a ON t.album_id = a.album_id
 GROUP BY a.album_name;
 
 --4
-SELECT s.singer_name, a.album_year  FROM singers s 
-LEFT JOIN albums_singers als ON s.singer_id =als.singer_id 
-LEFT JOIN albums a ON als.album_id = a.album_id 
-WHERE a.album_year != '01-01-2022';
+SELECT singer_name FROM singers 
+WHERE singer_name NOT IN (
+							SELECT singer_name FROM singers s
+							LEFT JOIN albums_singers als ON s.singer_id = als.singer_id 
+							LEFT JOIN albums a ON als.album_id =a.album_id
+							WHERE a.album_year = '01-01-2020')
+
+
+/*SELECT ... /* Получаем имена исполнителей */
+FROM ...  /* Из таблицы исполнителей */
+WHERE ... NOT IN ( /* Где имя исполнителя не входит в вложенную выборку */
+    SELECT ... /* Получаем имена исполнителей */
+    FROM ... /* Из таблицы исполнителей */
+    JOIN ... ON ... = ... /* Объединяем с промежуточной таблицей */
+    JOIN ... ON ... = ... /* Объединяем с таблицей альбомов */
+    WHERE ... = ... /* Где год альбома равен 2020 */
+);*/
 
 --5
 SELECT DISTINCT c.collection_name FROM collections c 
